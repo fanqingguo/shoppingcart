@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/default.css}" rel="stylesheet"/>
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+</head>
+
+<body>
+<h1>确认订单</h1>
+<hr>
+用户：<span th:text="${session.user.name}"></span><br>
+电话：<span th:text="${session.user.phone}"></span><br>
+地址：<span th:text="${session.user.address}"></span><br>
+<table border="1">
+    <tr>
+        <td>序号</td>
+        <td>商品</td>
+        <td>数量</td>
+        <td>价格</td>
+    </tr>
+    <tr th:each="item,temp:${carts}">
+        <td th:text="${item.id}">1</td>
+        <td th:text="${item.productName}">康师傅方便面</td>
+        <td>
+            <input size="2" th:id="${'num_'+item.id}" class="nums" type="text" th:value="${item.num}">
+        </td>
+        <td th:text="${item.price}" class="price">100</td>
+    </tr>
+</table>
+<hr>
+总计：<span id="sums"></span>元<br>
+<a th:href="@{/order/genOrder}">生成订单</a>
+<a href="javascript:back();">返回</a>
+<script th:inline="javascript">
+    $(function () {
+        var nums = $('.nums');
+        var price = $('.price');
+        var sum=0;
+        for (var i=0;i<nums.length;i++){
+            sum+=nums[i].value*price[i].innerHTML
+        }
+        $('#sums').text(sum);
+    })
+    function back() {
+        history.back();
+    }
+
+</script>
+</body>
+</html>

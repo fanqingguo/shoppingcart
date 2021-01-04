@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/default.css}" rel="stylesheet"/>
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+</head>
+
+<body><h1>我的购物车</h1>
+<hr>
+<table border="1">
+    <tr>
+        <td>
+            <input type="checkbox">
+            全选
+        </td>
+        <td>序号</td>
+        <td>商品</td>
+        <td>数量</td>
+        <td>价格</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="item,temp:${carts}">
+        <td><input type="checkbox" th:value="${item.id}" class="id"></td>
+        <td th:text="${item.id}">1</td>
+        <td th:text="${item.productName}">康师傅方便面</td>
+        <td>
+            <input size="2" th:id="${'num_'+item.id}" class="nums" type="text" th:value="${item.num}">
+        </td>
+        <td th:text="${item.price}" class="price">100</td>
+        <td>
+            <a th:onclick="del([[${item.id}]])">删除</a>
+            <a th:onclick="update([[${item.id}]])">修改</a>
+        </td>
+    </tr>
+</table>
+<hr>
+总计：<span id="sums"></span>元<br>
+<a href="javascript:dels();">删除选中项</a>
+<a href="javascript:deleteAll();">清空购物车</a>
+<a th:href="@{/}">继续购物</a>
+<a th:href="@{/cart/viewOrder}">结算</a>
+<script th:inline="javascript">
+    $(function () {
+        var nums = $('.nums');
+        var price = $('.price');
+        var sum=0;
+        for (var i=0;i<nums.length;i++){
+            sum+=nums[i].value*price[i].innerHTML
+        }
+       $('#sums').text(sum);
+    })
+    function update(id) {
+        $.ajax({
+            url:'/cart/update',
+            data:{id:id,num:$('#num_'+id).val()},
+            dataType:'json',
+            method:'post',
+            success:function (result) {
+                alert(result.msg);
+                location.reload();
+            }
+        })
+    }
+    function del(id) {
+        $.ajax({
+            url:'/cart/delete',
+            data:{id:id},
+            dataType:'json',
+            method:'post',
+            success:function (result) {
+                alert(result.msg);
+                location.reload();
+            }
+        })
+    }
+    function dels() {
+        var  id = $('.id');
+        var toIds=[];
+        for (var i=0;i<id.length;i++){
+            if (id[i].checked)
+                toIds.push(id[i].value)
+        }
+        $.ajax({
+            url:'/cart/deletes',
+            data:{ids:toIds},
+            dataType:'json',
+            method:'post',
+            success:function (result) {
+                alert(result.msg);
+                location.reload();
+            }
+        })
+    }
+    function deleteAll() {
+        var  id = $('.id');
+        var toIds=[];
+        for (var i=0;i<id.length;i++){
+            toIds.push(id[i].value)
+        }
+        $.ajax({
+            url:'/cart/deletes',
+            data:{ids:toIds},
+            dataType:'json',
+            method:'post',
+            success:function (result) {
+                alert(result.msg);
+                location.reload();
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/default.css}" rel="stylesheet"/>
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+</head>
+
+<body>
+
+<h1>历史订单</h1>
+<hr>
+<table border="1">
+    <tr>
+        <td>序号</td>
+        <td>订单号</td>
+    </tr>
+    <tr th:each="item,temp:${orders}">
+        <td th:text="${item.id}">1</td>
+        <td>
+            <a th:href="${'/order/detail/'+item.orderId}">12312312312423423</a>
+        </td>
+    </tr>
+</table>
+<a href="javascript:back();">返回</a>
+<script th:inline="javascript">
+    function back() {
+        history.back();
+    }
+</script>
+</body>
+</html>

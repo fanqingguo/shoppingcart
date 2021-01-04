@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/default.css}" rel="stylesheet"/>
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+</head>
+
+<body>
+<h1>用户注册</h1>
+<hr>
+<form th:action="@{/user/create}" method="post">
+    用户名：<input type="text" name="name"><br>
+    密码：<input type="password" name="password"><br>
+    电话：<input type="text" name="phone"><br>
+    地址：<input type="text" name="address"><br>
+    <input type="submit" value="注册">
+</form>
+<a href="list.html">返回</a>
+
+
+
+</body>
+</html>
